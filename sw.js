@@ -1,6 +1,6 @@
 // Offline support for the Zairo Quotation Builder.
 // After you change any file and redeploy, raise the version number so phones pick up the update.
-const CACHE = 'zairo-quotes-v3';
+const CACHE = 'zairo-quotes-v4';
 
 const FILES = [
   './',

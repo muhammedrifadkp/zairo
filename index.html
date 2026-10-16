@@ -937,12 +937,25 @@ function fit() {
 }
 window.addEventListener('resize', fit);
 
+function getPdfFileName() {
+  const v = derive(state);
+  const name = String(state.custName || '').trim() || 'Zairo Solar Quote';
+  const kwVal = String(state.invKw || v.dcKwp || '').trim();
+  const kwText = kwVal ? (kwVal.toUpperCase().endsWith('KW') ? kwVal.toUpperCase() : kwVal + 'KW') : '';
+  const code = String(state.quoteNo || '').trim().replace(/[\\/:*?"<>|]+/g, '-');
+  const parts = [name, kwText, code].filter(Boolean);
+  return parts.join(' - ').replace(/[\\/:*?"<>|]+/g, '-');
+}
+
 // Actions
 $('#btnPrint').addEventListener('click', () => {
   const t = document.title;
-  document.title = `Zairo Quote ${state.quoteNo} - ${state.custName}`.replace(/[\\/:*?"<>|]+/g, '-');
+  document.title = getPdfFileName();
   window.print();
-  document.title = t;
+  setTimeout(() => { document.title = t; }, 1000);
+});
+window.addEventListener('beforeprint', () => {
+  document.title = getPdfFileName();
 });
 $('#btnNew').addEventListener('click', () => {
   if (!confirm('Start a new quote? Customer details are cleared and the reference number goes up by one. System, price and company details are kept.')) return;
@@ -955,7 +968,7 @@ $('#btnExport').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify({ app: 'zairo-quote', version: 2, state, edits }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `Zairo-Quote-${String(state.quoteNo).replace(/[^\w-]+/g, '-')}.json`;
+  a.download = `${getPdfFileName()}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 });
