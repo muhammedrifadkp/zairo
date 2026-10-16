@@ -57,9 +57,35 @@ body{font-family:var(--body);color:var(--ink);background:var(--desk);display:gri
 .btn:focus-visible,.fld input:focus-visible,.fld select:focus-visible{outline:2px solid var(--sun);outline-offset:1px}
 .print-tip{margin:10px 0 0;font-size:11.5px;line-height:1.45;color:var(--ink-2);background:var(--line-2);border-radius:7px;padding:7px 9px}
 .print-tip b{font-weight:600;color:var(--ink)}
-.btn.install{border-color:var(--sun);background:var(--sun-50);color:var(--sun-700)}
-.btn.install:hover{border-color:var(--sun-700);color:var(--sun-700)}
+.btn.install{border-color:var(--green);background:var(--green-50);color:var(--green-700);display:inline-flex;align-items:center;gap:5px}
+.btn.install:hover{border-color:var(--green-700);background:var(--green-100);color:var(--green-900)}
 .print-tip[hidden],.btn[hidden]{display:none}
+
+/* Top Right Fixed Install Button (all views) */
+.top-install-btn{position:fixed;top:14px;right:18px;z-index:999;display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;border:1px solid var(--green-700);border-radius:999px;padding:8px 15px;font:600 12.5px/1 var(--body);cursor:pointer;box-shadow:0 3px 12px rgba(11,116,65,.28);transition:all .18s ease;user-select:none}
+.top-install-btn:hover{background:var(--green-700);transform:translateY(-1px);box-shadow:0 5px 16px rgba(11,116,65,.38)}
+.top-install-btn:active{transform:translateY(0)}
+.top-install-btn .ico{width:14px;height:14px;stroke-width:2.2}
+
+/* Install Modal Dialog */
+.install-modal-backdrop{position:fixed;inset:0;background:rgba(10,30,20,.6);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:2000;display:none;align-items:center;justify-content:center;padding:16px;animation:imFadeIn .18s ease-out}
+.install-modal{background:#fff;border-radius:18px;max-width:440px;width:100%;box-shadow:0 24px 50px rgba(5,40,20,.25);border:1px solid var(--line);overflow:hidden;animation:imSlideUp .22s cubic-bezier(.16,1,.3,1)}
+@keyframes imFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes imSlideUp{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.im-head{display:flex;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line-2)}
+.im-icon{width:44px;height:44px;border-radius:11px;box-shadow:0 2px 8px rgba(11,116,65,.15);flex:none;object-fit:cover}
+.im-title{flex:1}
+.im-title h3{font:600 16px/1.2 var(--head);margin:0 0 3px;color:var(--ink)}
+.im-title p{margin:0;font-size:12px;color:var(--muted);line-height:1.35}
+.im-close{width:32px;height:32px;border:none;background:var(--line-2);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink-2);transition:all .15s}
+.im-close:hover{background:var(--line);color:var(--ink)}
+.im-body{padding:18px 20px;display:flex;flex-direction:column;gap:11px}
+.im-step{display:flex;gap:12px;align-items:flex-start;background:var(--line-2);padding:11px 13px;border-radius:12px}
+.im-step-n{width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font:700 12px/24px var(--body);text-align:center;flex:none}
+.im-step-txt{font-size:13px;line-height:1.45;color:var(--ink-2);flex:1}
+.im-step-txt b{color:var(--ink);font-weight:600}
+.im-step-txt .sub{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.im-foot{padding:12px 20px 18px;border-top:1px solid var(--line-2);display:flex;justify-content:flex-end;gap:8px}
 .ed-scroll{overflow:auto;flex:1;padding:6px 0 30px}
 .warnings{margin:10px 18px 0;display:flex;flex-direction:column;gap:6px}
 .warn{font-size:12px;line-height:1.4;background:var(--danger-50);color:var(--danger);border-radius:8px;padding:8px 10px}
@@ -249,12 +275,13 @@ tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none
   .editor{border-right:none;border-bottom:1px solid var(--line)}
   .ed-scroll{overflow:visible}
   .preview{overflow:visible;padding:16px}
+  .top-install-btn{top:10px;right:12px;padding:6px 12px;font-size:11.5px;z-index:1001}
 }
 @page{size:A4;margin:0}
 @media print{
   :root{--u:min(calc(100vh / 297.5),calc(100vw / 210.4))}
   html,body{background:#fff;height:auto;overflow:visible;display:block;padding:0!important;margin:0!important}
-  .editor,.mobile-bar{display:none!important}
+  .editor,.mobile-bar,.top-install-btn,.install-modal-backdrop{display:none!important}
   .preview{padding:0;overflow:visible}
   .pages{zoom:1!important;gap:0;display:block}
   .page{box-shadow:none;margin:0 auto;break-after:page;page-break-after:always}
@@ -265,6 +292,12 @@ tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none
 </style>
 </head>
 <body>
+
+<!-- Top Right Install Button (visible across all views: iPhone, Android, Desktop, Laptop) -->
+<button class="top-install-btn" id="topInstallBtn" type="button" aria-label="Install Zairo App">
+  <svg class="ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+  <span>Install app</span>
+</button>
 
 <!-- =================== EDITOR =================== -->
 <aside class="editor" aria-label="Quotation details">
@@ -278,9 +311,11 @@ tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none
       <button class="btn" id="btnExport" type="button">Save quote file</button>
       <button class="btn" id="btnImport" type="button">Open quote file</button>
       <input type="file" id="fileImport" accept=".json,application/json" hidden>
-      <button class="btn install" id="btnInstall" type="button" hidden>Install app</button>
+      <button class="btn install" id="btnInstall" type="button">
+        <svg class="ico" viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-1px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Install app</span>
+      </button>
     </div>
-    <p class="print-tip" id="iosTip" hidden>To use this as an app on iPhone: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
     <p class="print-tip">In the print window, choose <b>Save as PDF</b>, set <b>Margins: None</b> and untick <b>Headers and footers</b>. Otherwise the date and file path are printed at the edges.</p>
   </div>
   <div class="ed-scroll">
@@ -960,24 +995,190 @@ $$('.mobile-bar [data-go]').forEach(b => b.addEventListener('click', () => {
   (go === 'editor' ? $('.editor') : $('#preview')).scrollIntoView({ behavior: 'smooth', block: 'start' });
 }));
 
-// ---------- Installable app ----------
+// ---------- Installable app (iPhone, Android, Desktop, Laptop) ----------
 const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 let installPrompt = null;
+
+function hideAllInstallUI() {
+  const topBtn = $('#topInstallBtn');
+  const edBtn = $('#btnInstall');
+  if (topBtn) topBtn.style.display = 'none';
+  if (edBtn) edBtn.style.display = 'none';
+}
+
+if (standalone) {
+  hideAllInstallUI();
+}
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   installPrompt = e;
-  $('#btnInstall').hidden = false;
 });
-$('#btnInstall').addEventListener('click', async () => {
-  if (!installPrompt) return;
-  installPrompt.prompt();
-  await installPrompt.userChoice;
+
+window.addEventListener('appinstalled', () => {
   installPrompt = null;
-  $('#btnInstall').hidden = true;
+  hideAllInstallUI();
 });
-window.addEventListener('appinstalled', () => { $('#btnInstall').hidden = true; });
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-if (isIOS && !standalone) $('#iosTip').hidden = false;
+
+async function handleInstall() {
+  if (installPrompt) {
+    installPrompt.prompt();
+    const choice = await installPrompt.userChoice;
+    if (choice && choice.outcome === 'accepted') {
+      hideAllInstallUI();
+    }
+    installPrompt = null;
+    return;
+  }
+  openInstallModal();
+}
+
+$('#topInstallBtn')?.addEventListener('click', handleInstall);
+$('#btnInstall')?.addEventListener('click', handleInstall);
+
+function openInstallModal() {
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || 
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const isMac = /macintosh|mac os x/i.test(navigator.userAgent) && !isIOS;
+
+  let title = 'Install Zairo App';
+  let desc = 'Install on your device for fast offline access and full-screen experience.';
+  let stepsHtml = '';
+
+  if (isIOS) {
+    title = 'Install on iPhone / iPad';
+    desc = 'Add Zairo to your Home Screen to use it full-screen just like a native mobile app.';
+    stepsHtml = `
+      <div class="im-step">
+        <div class="im-step-n">1</div>
+        <div class="im-step-txt">
+          In <b>Safari</b>, tap the <b>Share</b> button at the bottom of your screen.
+          <span class="sub">Look for the share icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;color:var(--green)"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></span>
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">2</div>
+        <div class="im-step-txt">
+          Scroll down the menu and tap <b>Add to Home Screen</b>.
+          <span class="sub">Icon looks like a plus in a square: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;color:var(--green)"><rect x="3" y="3" width="18" height="18" rx="4"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></span>
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">3</div>
+        <div class="im-step-txt">
+          Tap <b>Add</b> in the top right corner.
+          <span class="sub">The Zairo Quotes icon will now appear on your home screen!</span>
+        </div>
+      </div>
+    `;
+  } else if (isAndroid) {
+    title = 'Install on Android';
+    desc = 'Install Zairo on your phone for quick offline access.';
+    stepsHtml = `
+      <div class="im-step">
+        <div class="im-step-n">1</div>
+        <div class="im-step-txt">
+          Tap the <b>three dots menu (⋮)</b> in the top right corner of Chrome.
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">2</div>
+        <div class="im-step-txt">
+          Tap <b>Install app</b> or <b>Add to Home screen</b>.
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">3</div>
+        <div class="im-step-txt">
+          Tap <b>Install</b> to confirm.
+        </div>
+      </div>
+    `;
+  } else if (isMac) {
+    title = 'Install on Mac Desktop / Laptop';
+    desc = 'Install Zairo as a standalone application on macOS.';
+    stepsHtml = `
+      <div class="im-step">
+        <div class="im-step-n">1</div>
+        <div class="im-step-txt">
+          <b>In Chrome or Edge:</b> Click the <b>Install</b> icon on the right side of the address bar at the top, or click Menu (⋮) → <b>Save and share</b> → <b>Install Zairo Quotation Builder</b>.
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">2</div>
+        <div class="im-step-txt">
+          <b>In Safari:</b> Choose <b>File</b> in the top menu bar → select <b>Add to Dock</b>.
+        </div>
+      </div>
+    `;
+  } else {
+    title = 'Install on Desktop / Laptop';
+    desc = 'Use Zairo Quotation Builder as an installed desktop software.';
+    stepsHtml = `
+      <div class="im-step">
+        <div class="im-step-n">1</div>
+        <div class="im-step-txt">
+          Look for the <b>Install App icon</b> (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;color:var(--green)"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>) on the right side of your browser address bar.
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">2</div>
+        <div class="im-step-txt">
+          Or click the <b>browser menu (⋮ or ...)</b> at top right → select <b>"Save and share"</b> or <b>"Apps"</b> → click <b>"Install Zairo Quotation Builder"</b>.
+        </div>
+      </div>
+      <div class="im-step">
+        <div class="im-step-n">3</div>
+        <div class="im-step-txt">
+          Click <b>Install</b>. The app will launch in its own clean window with a desktop shortcut!
+        </div>
+      </div>
+    `;
+  }
+
+  let modalEl = $('#installModal');
+  if (!modalEl) {
+    modalEl = document.createElement('div');
+    modalEl.id = 'installModal';
+    modalEl.className = 'install-modal-backdrop';
+    document.body.appendChild(modalEl);
+    modalEl.addEventListener('click', e => {
+      if (e.target === modalEl) closeInstallModal();
+    });
+  }
+
+  modalEl.innerHTML = `
+    <div class="install-modal" role="dialog" aria-modal="true" aria-labelledby="imTitle">
+      <div class="im-head">
+        <img class="im-icon" src="icons/icon-192.png" alt="Zairo">
+        <div class="im-title">
+          <h3 id="imTitle">${esc(title)}</h3>
+          <p>${esc(desc)}</p>
+        </div>
+        <button class="im-close" type="button" aria-label="Close" id="imCloseBtn">✕</button>
+      </div>
+      <div class="im-body">
+        ${stepsHtml}
+      </div>
+      <div class="im-foot">
+        <button class="btn primary" type="button" id="imGotItBtn">Got it</button>
+      </div>
+    </div>
+  `;
+  modalEl.style.display = 'flex';
+  $('#imCloseBtn')?.addEventListener('click', closeInstallModal);
+  $('#imGotItBtn')?.addEventListener('click', closeInstallModal);
+}
+
+function closeInstallModal() {
+  const modalEl = $('#installModal');
+  if (modalEl) modalEl.style.display = 'none';
+}
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeInstallModal();
+});
 // Offline support (only over https / localhost, not when opened as a file)
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
