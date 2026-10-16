@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zairo Quotation Builder</title>
+<meta name="description" content="Create Zairo Green Energy solar quotations and save them as PDF.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B7441">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Zairo Quotes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+/* Static (non-variable) fonts stored with the template, so PDFs embed real text fonts and it works offline */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/inter-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/inter-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/inter-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/inter-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/inter-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/inter-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/inter-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/inter-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/poppins-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/poppins-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/poppins-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/poppins-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/poppins-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/poppins-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{
+  --u:1mm; /* one design millimetre; scaled down in print to fit the printable area */
+  --green:#0B7441; --green-700:#085A32; --green-900:#05391F; --green-50:#EAF4EE; --green-100:#D3E9DC;
+  --sun:#F4AA09; --sun-50:#FEF5E1; --sun-700:#8A5F00;
+  --ink:#16211B; --ink-2:#3C4A42; --muted:#67776E; --line:#DCE5DF; --line-2:#EEF3F0;
+  --paper:#FFFFFF; --desk:#E6ECE8; --danger:#B42318; --danger-50:#FDECEA;
+  --head:'Poppins','Segoe UI',system-ui,sans-serif;
+  --body:'Inter','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0}
+body{font-family:var(--body);color:var(--ink);background:var(--desk);display:grid;grid-template-columns:370px 1fr;height:100vh;overflow:hidden}
+
+/* ---------- Editor ---------- */
+.editor{background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.ed-head{padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+.ed-head img{height:34px;display:block}
+.ed-head h1{font:600 15px/1.3 var(--head);margin:10px 0 2px}
+.ed-head p{margin:0;font-size:12px;color:var(--muted)}
+.ed-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.btn{font:600 12px var(--body);border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:8px 11px;cursor:pointer}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn.primary:hover{background:var(--green-700);color:#fff}
+.btn:focus-visible,.fld input:focus-visible,.fld select:focus-visible{outline:2px solid var(--sun);outline-offset:1px}
+.print-tip{margin:10px 0 0;font-size:11.5px;line-height:1.45;color:var(--ink-2);background:var(--line-2);border-radius:7px;padding:7px 9px}
+.print-tip b{font-weight:600;color:var(--ink)}
+.btn.install{border-color:var(--sun);background:var(--sun-50);color:var(--sun-700)}
+.btn.install:hover{border-color:var(--sun-700);color:var(--sun-700)}
+.print-tip[hidden],.btn[hidden]{display:none}
+.ed-scroll{overflow:auto;flex:1;padding:6px 0 30px}
+.warnings{margin:10px 18px 0;display:flex;flex-direction:column;gap:6px}
+.warn{font-size:12px;line-height:1.4;background:var(--danger-50);color:var(--danger);border-radius:8px;padding:8px 10px}
+.warn.info{background:var(--sun-50);color:var(--sun-700)}
+details.grp{border-bottom:1px solid var(--line-2);padding:0 18px}
+details.grp>summary{font:600 13px var(--head);padding:13px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.grp>summary::-webkit-details-marker{display:none}
+details.grp>summary::after{content:"+";font:500 16px var(--body);color:var(--muted)}
+details.grp[open]>summary::after{content:"–"}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;padding-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--ink-2);font-weight:500}
+.fld.full{grid-column:1/-1}
+.fld input,.fld select{font:400 13px var(--body);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:7px 8px;background:#fff;width:100%;min-width:0}
+.hint{grid-column:1/-1;font-size:11.5px;color:var(--green-700);background:var(--green-50);border-radius:7px;padding:7px 9px;line-height:1.45}
+.tip{font-size:11.5px;color:var(--muted);padding:12px 18px 0;line-height:1.45}
+.bom-ed{padding-bottom:14px}
+.bom-note{font-size:11.5px;color:var(--muted);line-height:1.45;margin:0 0 10px}
+.bom-row{border:1px solid var(--line);border-radius:9px;padding:8px;margin-bottom:8px;background:#fff}
+.bom-row.auto{background:var(--green-50);border-color:var(--green-100)}
+.bom-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.bom-n{font:600 11.5px var(--body);color:var(--ink-2);min-width:18px}
+.bom-kind{flex:1;font-size:11px;font-weight:600;color:var(--green-700)}
+.bom-ctrl{display:flex;gap:4px}
+.bom-ctrl button{width:28px;height:26px;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;font-size:12px;color:var(--ink-2);padding:0}
+.bom-ctrl button:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+.bom-ctrl button[data-act="del"]:hover{border-color:var(--danger);color:var(--danger)}
+.bom-ctrl button:disabled{opacity:.35;cursor:default}
+.bom-ctrl button:focus-visible{outline:2px solid var(--sun);outline-offset:1px}
+.bom-grid{display:grid;grid-template-columns:.8fr 1.6fr .7fr;gap:6px}
+.bom-grid .wide{grid-column:1/-1}
+.bom-grid input{font:400 12.5px var(--body);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 7px;min-width:0;width:100%;background:#fff}
+.bom-grid input::placeholder{color:#97a69d}
+.bom-grid input:focus-visible{outline:2px solid var(--sun);outline-offset:1px}
+.bom-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ---------- Preview ---------- */
+.preview{overflow:auto;padding:28px 24px 60px;min-width:0}
+.pages{display:flex;flex-direction:column;align-items:center;gap:22px;zoom:var(--z,1)}
+.page{width:calc(210*var(--u));height:calc(297*var(--u));background:var(--paper);box-shadow:0 2px 14px rgba(10,40,25,.14);position:relative;overflow:hidden;display:flex;flex-direction:column;padding:calc(11*var(--u)) calc(14*var(--u)) calc(8*var(--u));font-size:calc(9*.3528*var(--u));line-height:1.45;flex:none}
+.page.overflow::after{content:"Content too long for this page — shorten text";position:absolute;top:calc(3*var(--u));left:50%;transform:translateX(-50%);background:var(--danger);color:#fff;font:600 calc(9*.3528*var(--u)) var(--body);padding:calc(2*var(--u)) calc(4*var(--u));border-radius:calc(2*var(--u))}
+.pbody{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+[data-edit]{border-radius:calc(1.5*var(--u));transition:outline-color .15s}
+[data-edit]:hover{outline:1px dashed #8fbfa5;outline-offset:calc(1.2*var(--u))}
+[data-edit]:focus{outline:1.5px solid var(--sun);outline-offset:calc(1.2*var(--u))}
+
+/* shared page typography */
+.phead{display:flex;justify-content:space-between;align-items:center;padding-bottom:calc(3.5*var(--u));border-bottom:1px solid var(--line);margin-bottom:calc(6*var(--u))}
+.phead img{height:calc(9.5*var(--u))}
+.phead .ref{font-size:calc(7.8*.3528*var(--u));color:var(--muted);text-align:right;line-height:1.35}
+.phead .ref b{color:var(--ink-2);font-weight:600}
+.kicker{font:600 calc(7.6*.3528*var(--u)) var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+h2{font:600 calc(18*.3528*var(--u))/1.2 var(--head);margin:calc(1*var(--u)) 0 calc(4.5*var(--u));color:var(--ink);letter-spacing:-.01em}
+h3{font:600 calc(10.5*.3528*var(--u))/1.3 var(--head);margin:calc(6*var(--u)) 0 calc(2.5*var(--u));color:var(--ink)}
+.muted{color:var(--muted)}
+.pfoot{display:flex;justify-content:space-between;align-items:center;font-size:calc(7.3*.3528*var(--u));color:var(--muted);border-top:1px solid var(--line);padding-top:calc(2.5*var(--u));margin-top:calc(3*var(--u))}
+.pfoot b{color:var(--green-700);font-weight:600}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ico{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.small-note{font-size:calc(7.4*.3528*var(--u));color:var(--muted);margin-top:calc(1.8*var(--u));line-height:1.45}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:calc(8.4*.3528*var(--u))}
+th{text-align:left;font:600 calc(6.9*.3528*var(--u)) var(--body);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1.4px solid var(--ink);padding:calc(1.6*var(--u)) calc(2*var(--u))}
+td{padding:calc(1.9*var(--u)) calc(2*var(--u));border-bottom:1px solid var(--line);vertical-align:top}
+td.idx{color:var(--muted);width:calc(7*var(--u))}
+td b{font-weight:600}
+tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none;font-size:calc(9*.3528*var(--u))}
+
+/* ---------- Cover ---------- */
+.cover{padding:0}
+.cover-top{display:flex;justify-content:space-between;align-items:center;padding:calc(9*var(--u)) calc(14*var(--u)) calc(8*var(--u))}
+.cover-top img{height:calc(30*var(--u))}
+.cover-meta{text-align:right;font-size:calc(9.5*.3528*var(--u));line-height:1.6}
+.cover-meta .kicker{margin-bottom:calc(1*var(--u))}
+.cover-meta b{font-weight:600}
+.hero{position:relative;height:calc(126*var(--u));flex:none}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-text{position:absolute;left:calc(14*var(--u));right:calc(14*var(--u));bottom:calc(9*var(--u));color:#fff}
+.pill{display:inline-flex;align-items:center;gap:calc(1.5*var(--u));font:600 calc(7.6*.3528*var(--u)) var(--body);padding:calc(1.2*var(--u)) calc(3*var(--u));border-radius:calc(6*var(--u));background:var(--sun);color:#2b1d00;margin-bottom:calc(3.5*var(--u))}
+.hero h1{font:700 calc(24*.3528*var(--u))/1.12 var(--head);margin:0 0 calc(2.5*var(--u));max-width:calc(150*var(--u));letter-spacing:-.01em;text-wrap:balance}
+.hero p{margin:0;font-size:calc(9.5*.3528*var(--u));opacity:.92}
+.cover-body{flex:1;padding:calc(7*var(--u)) calc(14*var(--u)) 0;display:flex;flex-direction:column}
+.for-strip{display:grid;grid-template-columns:1.3fr 1fr;border:1px solid var(--line);border-radius:calc(3*var(--u));overflow:hidden}
+.for-strip>div{padding:calc(4*var(--u)) calc(5*var(--u))}
+.for-strip>div+div{border-left:1px solid var(--line);background:var(--line-2)}
+.label{font:600 calc(7*.3528*var(--u)) var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:calc(1.2*var(--u))}
+.for-name{font:600 calc(14*.3528*var(--u))/1.25 var(--head)}
+.for-line{font-size:calc(8.8*.3528*var(--u));color:var(--ink-2)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:calc(1.1*var(--u)) calc(5*var(--u));font-size:calc(8.6*.3528*var(--u));margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600;text-align:right}
+.band{background:var(--green-900);color:#fff;font:600 calc(8.6*.3528*var(--u)) var(--head);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:calc(2.4*var(--u)) calc(4*var(--u));border-radius:calc(2*var(--u));margin:calc(8*var(--u)) 0 calc(6*var(--u))}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:calc(5*var(--u)) calc(7*var(--u))}
+.why-item{display:flex;gap:calc(3.5*var(--u));align-items:flex-start}
+.why-item .ic{width:calc(10*var(--u));height:calc(10*var(--u));border-radius:calc(2.8*var(--u));background:var(--green-50);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:calc(5*var(--u));flex:none}
+.why-item b{display:block;font:600 calc(9.6*.3528*var(--u))/1.3 var(--head);margin-bottom:calc(.6*var(--u))}
+.why-item span{font-size:calc(8.2*.3528*var(--u));color:var(--ink-2);line-height:1.45;display:block}
+.cover-foot{background:var(--green-900);color:#fff;padding:calc(5.5*var(--u)) calc(14*var(--u));display:flex;justify-content:space-between;align-items:center;gap:calc(8*var(--u));font-size:calc(7.8*.3528*var(--u));line-height:1.55;flex:none;margin-top:auto}
+.cover-foot img{height:calc(11*var(--u))}
+.cover-foot .ct{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.cover-foot .row{display:flex;gap:calc(4*var(--u));flex-wrap:wrap;justify-content:flex-end}
+.cover-foot .row span{display:inline-flex;align-items:center;gap:calc(1.4*var(--u))}
+.cover-foot .ico{color:var(--sun)}
+
+/* ---------- Budgetary estimate ---------- */
+.dcards{display:grid;grid-template-columns:1fr 1.25fr;gap:calc(4*var(--u))}
+.dcard{border:1px solid var(--line);border-radius:calc(3*var(--u));padding:calc(3.5*var(--u)) calc(4.5*var(--u))}
+.dcard h4{font:600 calc(9*.3528*var(--u)) var(--head);color:var(--green-700);margin:0 0 calc(2*var(--u));padding-bottom:calc(1.5*var(--u));border-bottom:1px solid var(--line)}
+.dcard .kv{font-size:calc(8.5*.3528*var(--u))}
+.dcard .kv dd{text-align:left}
+.pband{display:grid;grid-template-columns:.8fr 1.1fr 1fr 1.25fr;border-radius:calc(3*var(--u));overflow:hidden;margin-top:calc(4*var(--u));border:1px solid var(--line)}
+.pband>div{padding:calc(3.5*var(--u)) calc(4*var(--u))}
+.pband>div+div{border-left:1px solid var(--line)}
+.pband .k{font:600 calc(6.8*.3528*var(--u)) var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pband .v{font:600 calc(14*.3528*var(--u))/1.25 var(--head);margin-top:calc(.8*var(--u))}
+.pband .s{font-size:calc(7.4*.3528*var(--u));color:var(--muted)}
+.pband .minus .v{color:var(--green)}
+.pband .net{background:var(--green);border-left-color:var(--green)!important;color:#fff}
+.pband .net .k,.pband .net .s{color:#d7f0e2}
+.stars{list-style:none;margin:calc(2.5*var(--u)) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:calc(1*var(--u)) calc(6*var(--u));font-size:calc(8*.3528*var(--u));color:var(--ink-2)}
+.stars li::before{content:"★";color:var(--sun);margin-right:calc(1.4*var(--u))}
+.sub-line{font-size:calc(8*.3528*var(--u));color:var(--ink-2);margin-top:calc(1.8*var(--u))}
+.scope{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:calc(1.4*var(--u)) calc(6*var(--u))}
+.scope li{display:flex;gap:calc(2*var(--u));font-size:calc(8.3*.3528*var(--u));line-height:1.4}
+.scope li::before{content:"";flex:none;width:calc(1.8*var(--u));height:calc(1.8*var(--u));border-radius:50%;background:var(--sun);margin-top:calc(1.4*var(--u))}
+
+/* ---------- BOM, warranty, charges ---------- */
+.bom td{padding-top:calc(2.6*var(--u));padding-bottom:calc(2.6*var(--u))}
+.bom td:nth-child(3){width:calc(24*var(--u))}
+.bom td:nth-child(4){width:calc(46*var(--u))}
+.bom td:nth-child(5){width:calc(14*var(--u))}
+.bom .dt{color:var(--ink-2)}
+.warr{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(3.5*var(--u))}
+.warr>div{border:1px solid var(--line);border-radius:calc(3*var(--u));padding:calc(3.2*var(--u)) calc(4*var(--u));display:flex;align-items:center;gap:calc(3.5*var(--u))}
+.warr .yrs{font:700 calc(17*.3528*var(--u))/1 var(--head);color:var(--green)}
+.warr .yrs small{font:600 calc(7*.3528*var(--u)) var(--body);color:var(--green-700);display:block;letter-spacing:.06em;text-transform:uppercase;margin-top:calc(.6*var(--u))}
+.warr .what{font-size:calc(8.2*.3528*var(--u));color:var(--ink-2);line-height:1.35}
+.charges td:nth-child(3){width:calc(46*var(--u))}
+.charges td .muted{font-size:calc(7.8*.3528*var(--u))}
+
+/* ---------- Terms & payment ---------- */
+.terms{margin:0;padding-left:calc(7*var(--u));font-size:calc(9.2*.3528*var(--u));line-height:1.6;color:var(--ink-2)}
+.terms li{margin-bottom:calc(2.4*var(--u));padding-left:calc(1*var(--u))}
+.terms b{color:var(--ink);font-weight:600}
+
+/* ---------- Payable to / regards ---------- */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:calc(4*var(--u))}
+.box{border:1px solid var(--line);border-radius:calc(3*var(--u));padding:calc(4*var(--u)) calc(5*var(--u))}
+.box h4{font:600 calc(9.5*.3528*var(--u)) var(--head);margin:0 0 calc(2.5*var(--u));color:var(--green-700)}
+.box .kv{font-size:calc(8.6*.3528*var(--u));gap:calc(1.4*var(--u)) calc(5*var(--u))}
+.box .kv dd{text-align:left}
+.contact-list{display:flex;flex-direction:column;gap:calc(1.8*var(--u));font-size:calc(8.6*.3528*var(--u))}
+.contact-list span{display:flex;gap:calc(2*var(--u));align-items:flex-start}
+.contact-list .ico{color:var(--green);margin-top:calc(.5*var(--u))}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:calc(8*var(--u));margin-top:calc(4*var(--u))}
+.sign p{font-size:calc(7.8*.3528*var(--u));color:var(--muted);margin:0 0 calc(10*var(--u))}
+.sig-line{border-top:1px solid var(--ink-2);padding-top:calc(1.2*var(--u));font-size:calc(7.4*.3528*var(--u));color:var(--muted);margin-top:calc(7*var(--u))}
+.sig-line:first-of-type{margin-top:0}
+.regards{position:relative;flex:1;min-height:calc(60*var(--u));margin-top:calc(5*var(--u));border-radius:calc(3*var(--u));overflow:hidden}
+.regards img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.regards .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,28,15,.85),rgba(3,28,15,.15) 65%)}
+.regards .txt{position:absolute;left:calc(7*var(--u));right:calc(7*var(--u));bottom:calc(6*var(--u));color:#fff}
+.regards .txt b{display:block;font:600 calc(17*.3528*var(--u))/1.2 var(--head)}
+.regards .txt span{font-size:calc(9*.3528*var(--u));opacity:.9}
+
+/* ---------- Responsive & print ---------- */
+.mobile-bar{display:none}
+@media (max-width:1000px){
+  body{grid-template-columns:1fr;height:auto;overflow:visible;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:10;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -2px 10px rgba(10,40,25,.08)}
+  .mobile-bar button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font:600 13px var(--body);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 6px;cursor:pointer}
+  .mobile-bar button .ico{font-size:16px}
+  .mobile-bar button.pdf{background:var(--green);border-color:var(--green);color:#fff}
+  .mobile-bar button:focus-visible{outline:2px solid var(--sun);outline-offset:1px}
+  .editor{border-right:none;border-bottom:1px solid var(--line)}
+  .ed-scroll{overflow:visible}
+  .preview{overflow:visible;padding:16px}
+}
+@page{size:A4;margin:0}
+@media print{
+  :root{--u:min(calc(100vh / 297.5),calc(100vw / 210.4))}
+  html,body{background:#fff;height:auto;overflow:visible;display:block;padding:0!important;margin:0!important}
+  .editor,.mobile-bar{display:none!important}
+  .preview{padding:0;overflow:visible}
+  .pages{zoom:1!important;gap:0;display:block}
+  .page{box-shadow:none;margin:0 auto;break-after:page;page-break-after:always}
+  .page:last-child{break-after:auto;page-break-after:auto}
+  .page.overflow::after{display:none}
+  [data-edit]:hover,[data-edit]:focus{outline:none}
+}
+</style>
+</head>
+<body>
+
+<!-- =================== EDITOR =================== -->
+<aside class="editor" aria-label="Quotation details">
+  <div class="ed-head">
+    <img src="assets/logo.png" alt="Zairo Green Energy">
+    <h1>Quotation builder</h1>
+    <p>Fill in the details; the quotation updates as you type.</p>
+    <div class="ed-actions">
+      <button class="btn primary" id="btnPrint" type="button">Print / Save PDF</button>
+      <button class="btn" id="btnNew" type="button">New quote</button>
+      <button class="btn" id="btnExport" type="button">Save quote file</button>
+      <button class="btn" id="btnImport" type="button">Open quote file</button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+      <button class="btn install" id="btnInstall" type="button" hidden>Install app</button>
+    </div>
+    <p class="print-tip" id="iosTip" hidden>To use this as an app on iPhone: tap <b>Share</b>, then <b>Add to Home Screen</b>.</p>
+    <p class="print-tip">In the print window, choose <b>Save as PDF</b>, set <b>Margins: None</b> and untick <b>Headers and footers</b>. Otherwise the date and file path are printed at the edges.</p>
+  </div>
+  <div class="ed-scroll">
+    <div class="warnings" id="warnings"></div>
+    <p class="tip">Tip: text blocks with a dashed outline on hover (why choose, customer scope, terms) can be edited directly on the page. The bill of materials is edited in its own section below. <a href="#" id="btnResetText">Reset edited text</a></p>
+
+    <details class="grp" open><summary>Customer details</summary>
+      <div class="grid2">
+        <label class="fld full"><span>Name</span><input data-k="custName"></label>
+        <label class="fld full"><span>Site address</span><input data-k="custAddress"></label>
+        <label class="fld"><span>Phone no.</span><input data-k="custPhone"></label>
+        <label class="fld"><span>Email ID (optional)</span><input data-k="custEmail"></label>
+      </div>
+    </details>
+
+    <details class="grp" open><summary>Quotation details</summary>
+      <div class="grid2">
+        <label class="fld"><span>Reference number</span><input data-k="quoteNo"></label>
+        <label class="fld"><span>Date of quotation</span><input type="date" data-k="quoteDate"></label>
+        <label class="fld"><span>Quote valid (days)</span><input type="number" min="1" data-k="validDays"></label>
+        <label class="fld"><span>Prepared by</span><input data-k="preparedBy"></label>
+      </div>
+    </details>
+
+    <details class="grp" open><summary>System</summary>
+      <div class="grid2">
+        <label class="fld"><span>Panel brand</span><input data-k="panelMake" list="dlPanel"></label>
+        <label class="fld"><span>Panel type</span><input data-k="panelTech" list="dlTech"></label>
+        <label class="fld"><span>Panel rating (Wp)</span><input type="number" step="5" data-k="panelWatt"></label>
+        <label class="fld"><span>No. of panels</span><input type="number" min="1" data-k="panelCount"></label>
+        <label class="fld full"><span>Inverter make</span><input data-k="invMake" list="dlInv"></label>
+        <label class="fld"><span>System capacity / inverter (kW)</span><input type="number" step="0.5" data-k="invKw"></label>
+        <label class="fld"><span>Connection</span>
+          <select data-k="phase"><option>Single phase</option><option>Three phase</option></select></label>
+        <label class="fld"><span>Max. structure height (m)</span><input type="number" step="0.05" data-k="structureHeight"></label>
+        <label class="fld"><span>DC cable included (m)</span><input type="number" data-k="dcCable"></label>
+        <label class="fld"><span>AC wire included (m)</span><input type="number" data-k="acCable"></label>
+        <div class="hint" data-hint="system"></div>
+      </div>
+      <datalist id="dlPanel"><option>Waaree</option><option>Adani</option><option>Premier Energies</option><option>Havells</option><option>Tata Power Solar</option><option>Vikram Solar</option></datalist>
+      <datalist id="dlTech"><option>TOPCon DCR</option><option>TOPCon Bifacial DCR</option><option>Mono PERC Half-cut DCR</option></datalist>
+      <datalist id="dlInv"><option>Waaree / Deye / Havells</option><option>Waaree</option><option>Deye</option><option>Havells</option><option>PV Blink</option></datalist>
+    </details>
+
+    <details class="grp" id="bomGroup"><summary>Bill of materials</summary>
+      <div class="bom-ed">
+        <p class="bom-note">Change, add, remove or reorder items. Green rows fill in from the System section; grey text is the automatic value, and typing over it replaces it.</p>
+        <div id="bomList"></div>
+        <div class="bom-actions">
+          <button class="btn primary" type="button" id="bomAdd">+ Add item</button>
+          <button class="btn" type="button" id="bomReset">Restore default list</button>
+        </div>
+      </div>
+    </details>
+
+    <details class="grp" open><summary>Price &amp; subsidy</summary>
+      <div class="grid2">
+        <label class="fld full"><span>Estimated price, inclusive of all taxes (₹)</span><input type="number" step="500" data-k="price"></label>
+        <label class="fld"><span>Subsidy</span>
+          <select data-k="subsidyMode"><option value="auto">PM Surya Ghar (auto)</option><option value="custom">Custom amount</option><option value="none">No subsidy</option></select></label>
+        <label class="fld" data-when="subsidyMode=custom"><span>Subsidy amount (₹)</span><input type="number" step="1000" data-k="subsidyCustom"></label>
+        <label class="fld"><span>Advance payment (%)</span><input type="number" min="0" max="100" data-k="advancePct"></label>
+        <label class="fld"><span>Balance due within (days of delivery)</span><input type="number" min="0" data-k="balanceDays"></label>
+        <div class="hint" data-hint="price"></div>
+      </div>
+    </details>
+
+    <details class="grp"><summary>Warranty</summary>
+      <div class="grid2">
+        <label class="fld"><span>Panel performance (yrs)</span><input type="number" data-k="panelPerfWarranty"></label>
+        <label class="fld"><span>Inverter (yrs)</span><input type="number" data-k="invWarranty"></label>
+        <label class="fld"><span>BOS (yrs)</span><input type="number" data-k="bosWarranty"></label>
+      </div>
+    </details>
+
+    <details class="grp"><summary>Other charges by client</summary>
+      <div class="grid2">
+        <label class="fld"><span>KSEB feasibility / registration (₹)</span><input type="number" data-k="ksebAppFee"></label>
+        <label class="fld"><span>KSEB deposit per kW, before tax (₹)</span><input type="number" data-k="ksebDepositPerKw"></label>
+        <label class="fld"><span>Net meter, 1 phase (₹)</span><input type="number" data-k="netMeter1ph"></label>
+        <label class="fld"><span>Net meter, 3 phase (₹)</span><input type="number" data-k="netMeter3ph"></label>
+      </div>
+    </details>
+
+    <details class="grp"><summary>Company &amp; bank details</summary>
+      <div class="grid2">
+        <label class="fld"><span>Phone 1</span><input data-k="coPhone1"></label>
+        <label class="fld"><span>Phone 2</span><input data-k="coPhone2"></label>
+        <label class="fld"><span>Email</span><input data-k="coEmail"></label>
+        <label class="fld"><span>Instagram</span><input data-k="coInsta"></label>
+        <label class="fld full"><span>Address</span><input data-k="coAddress"></label>
+        <label class="fld full"><span>Account name</span><input data-k="bankAccName"></label>
+        <label class="fld"><span>Bank</span><input data-k="bankName"></label>
+        <label class="fld"><span>Branch</span><input data-k="bankBranch"></label>
+        <label class="fld"><span>A/C no.</span><input data-k="bankAcc"></label>
+        <label class="fld"><span>IFSC</span><input data-k="bankIfsc"></label>
+        <label class="fld full"><span>UPI ID (optional)</span><input data-k="bankUpi"></label>
+      </div>
+    </details>
+  </div>
+</aside>
+
+<!-- =================== PROPOSAL =================== -->
+<main class="preview" id="preview">
+<div class="pages" id="pages">
+
+<!-- ========== 1. COVER + WHY CHOOSE ========== -->
+<section class="page cover">
+  <header class="cover-top">
+    <img src="assets/logo.png" alt="Zairo Green Energy">
+    <div class="cover-meta">
+      <div class="kicker">Solar Quotation</div>
+      <div><span class="muted">Ref.</span> <b data-f="quoteNo"></b></div>
+      <div><span class="muted">Date</span> <b data-f="quoteDateT"></b></div>
+    </div>
+  </header>
+  <div class="hero">
+    <img src="assets/hero-cover.jpg" alt="">
+    <div class="hero-text">
+      <span class="pill" data-show="hasSubsidy"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>PM Surya Ghar subsidy eligible</span>
+      <h1><span data-f="sizeLabel"></span> On-Grid Rooftop Solar Power Plant</h1>
+      <p data-f="heroSub"></p>
+    </div>
+  </div>
+  <div class="cover-body">
+    <div class="for-strip">
+      <div>
+        <div class="label">Prepared for</div>
+        <div class="for-name" data-f="custName"></div>
+        <div class="for-line" data-f="custAddress"></div>
+      </div>
+      <div>
+        <dl class="kv">
+          <dt>Reference no.</dt><dd data-f="quoteNo"></dd>
+          <dt>Date</dt><dd data-f="quoteDateT"></dd>
+          <dt>Valid until</dt><dd data-f="validUntilT"></dd>
+        </dl>
+      </div>
+    </div>
+    <div class="band">Why choose Zairo Green Energy</div>
+    <div class="why-grid" data-edit="why" contenteditable="true" spellcheck="false">
+      <div class="why-item"><div class="ic" contenteditable="false"><svg class="ico" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></div><div><b>Experienced engineering &amp; service team</b><span>Our team handles design, installation and after-sales service for your plant.</span></div></div>
+      <div class="why-item"><div class="ic" contenteditable="false"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><div><b>Lifetime protection for your investment</b><span>Branded panels and inverters backed by long manufacturer warranties.</span></div></div>
+      <div class="why-item"><div class="ic" contenteditable="false"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M3 8h18M3 12h18M9 4v12M15 4v12M8 20h8M12 16v4"/></svg></div><div><b>Wide range of products</b><span>Panels and inverters from leading brands to suit your roof and budget.</span></div></div>
+      <div class="why-item"><div class="ic" contenteditable="false"><svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div><div><b>24x7 customer service</b><span>Call us any time for help with your solar plant.</span></div></div>
+    </div>
+  </div>
+  <footer class="cover-foot">
+    <img src="assets/logo-white.png" alt="Zairo Green Energy">
+    <div class="ct">
+      <div data-f="coAddress"></div>
+      <div class="row">
+        <span><svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span data-f="coPhones"></span></span>
+        <span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-f="coEmail"></span></span>
+        <span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg><span data-f="coInsta"></span></span>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- ========== 2. BUDGETARY ESTIMATE ========== -->
+<section class="page">
+  <div class="pbody">
+    <div class="phead"><img src="assets/logo.png" alt="Zairo Green Energy"><div class="ref">Quotation <b data-f="quoteNo"></b><br>for <b data-f="custName"></b></div></div>
+    <div class="kicker">01 · Budgetary estimate</div>
+    <h2>Budgetary estimate</h2>
+    <div class="dcards">
+      <div class="dcard">
+        <h4>Quotation details</h4>
+        <dl class="kv">
+          <dt>Date of quotation</dt><dd data-f="quoteDateT"></dd>
+          <dt>Reference number</dt><dd data-f="quoteNo"></dd>
+          <dt>Valid until</dt><dd data-f="validUntilT"></dd>
+          <dt>Prepared by</dt><dd data-f="preparedBy"></dd>
+        </dl>
+      </div>
+      <div class="dcard">
+        <h4>Customer details</h4>
+        <dl class="kv">
+          <dt>Name</dt><dd data-f="custName"></dd>
+          <dt>Site address</dt><dd data-f="custAddress"></dd>
+          <dt>Phone no.</dt><dd data-f="custPhoneT"></dd>
+          <dt data-show="hasEmail">Email ID</dt><dd data-show="hasEmail" data-f="custEmail"></dd>
+        </dl>
+      </div>
+    </div>
+
+    <h3>Product details</h3>
+    <div class="pband" style="margin-top:0">
+      <div><div class="k">System capacity</div><div class="v" data-f="sizeLabel"></div><div class="s" data-f="dcLabel"></div></div>
+      <div><div class="k">Estimated price</div><div class="v" data-f="totalT"></div><div class="s">inclusive of all taxes</div></div>
+      <div class="minus" data-show="hasSubsidy"><div class="k">Subsidy</div><div class="v" data-f="subsidyT"></div><div class="s">credited to your bank account</div></div>
+      <div class="net"><div class="k" data-f="netLabel"></div><div class="v" data-f="netCostT"></div><div class="s" data-f="netSub"></div></div>
+    </div>
+    <ul class="stars">
+      <li>Inspectorate and KSEB charges not included</li>
+      <li>Maximum selling price</li>
+      <li>Quote valid <span data-f="validDays"></span> days</li>
+    </ul>
+
+    <h3>Customer scope</h3>
+    <ul class="scope" data-edit="scope" contenteditable="true" spellcheck="false">
+      <li>AC side works / spare feeder, UG cable charges, if required</li>
+      <li>Roof sheet, safety line, handrail &amp; walkway</li>
+      <li>Ladder / access to the roof</li>
+      <li>Installation can start only after the contract demand is enhanced to KSEB's requirement</li>
+      <li>Additional structure charges, if required</li>
+      <li>Net meter: KSEB / customer scope</li>
+    </ul>
+
+    <h3>Other charges by client</h3>
+    <table class="charges">
+      <thead><tr><th>Sl</th><th>Description</th><th class="num">Amount</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td><b>KSEB feasibility charge</b><br><span class="muted">registration application</span></td><td class="num" data-f="ksebAppFeeT"></td></tr>
+        <tr><td class="idx">2</td><td><b>KSEB deposit amount</b><br><span class="muted">80% refundable within 6 months</span></td><td class="num"><span data-f="ksebDepositT"></span><br><span class="muted" data-f="ksebDepositCalcT"></span></td></tr>
+        <tr><td class="idx">3</td><td><b>KSEB net meter (optional)</b><br><span class="muted">KSEB provides the net meter free of cost with a small monthly meter rent. If KSEB is late in supplying the meter, you may buy your own meter, and no meter rent will be charged.</span></td><td class="num"><span data-f="netMeter1phT"></span> <span class="muted">(1 phase meter)</span><br><span data-f="netMeter3phT"></span> <span class="muted">(3 phase meter)</span></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  <footer class="pfoot"><div><b>Zairo Green Energy</b> · <span data-f="coPhone1"></span> · <span data-f="coEmail"></span></div><div>Page 2 of 5</div></footer>
+</section>
+
+<!-- ========== 3. BILL OF MATERIALS & WARRANTY ========== -->
+<section class="page">
+  <div class="pbody">
+    <div class="phead"><img src="assets/logo.png" alt="Zairo Green Energy"><div class="ref">Quotation <b data-f="quoteNo"></b><br>for <b data-f="custName"></b></div></div>
+    <div class="kicker">02 · Materials &amp; warranty</div>
+    <h2>Tentative bill of materials</h2>
+    <table class="bom">
+      <thead><tr><th>#</th><th>Description of supply items</th><th>Qty</th><th>Make</th><th>UoM</th></tr></thead>
+      <tbody data-render="bom"></tbody>
+    </table>
+
+    <h3 style="margin-top:calc(8*var(--u))">Warranty</h3>
+    <div class="warr">
+      <div><div class="yrs"><span data-f="panelPerfWarranty"></span><small>years</small></div><div class="what"><b>Solar PV modules</b><br>performance warranty</div></div>
+      <div><div class="yrs"><span data-f="invWarranty"></span><small>years</small></div><div class="what"><b>Inverter</b><br>warranty</div></div>
+      <div><div class="yrs"><span data-f="bosWarranty"></span><small>years</small></div><div class="what"><b>BOS</b><br>warranty</div></div>
+    </div>
+
+  </div>
+  <footer class="pfoot"><div><b>Zairo Green Energy</b> · <span data-f="coPhone1"></span> · <span data-f="coEmail"></span></div><div>Page 3 of 5</div></footer>
+</section>
+
+<!-- ========== 4. TERMS & PAYMENT ========== -->
+<section class="page">
+  <div class="pbody">
+    <div class="phead"><img src="assets/logo.png" alt="Zairo Green Energy"><div class="ref">Quotation <b data-f="quoteNo"></b><br>for <b data-f="custName"></b></div></div>
+    <div class="kicker">03 · Terms</div>
+    <h2>Terms and conditions</h2>
+    <ol class="terms" data-edit="terms" contenteditable="true" spellcheck="false">
+      <li>The prices mentioned are inclusive of all taxes.</li>
+      <li>ALMM-listed <span data-f="panelTech"></span> panels of <span data-f="panelMake"></span> or equivalent shall be used, as per authority requirements.</li>
+      <li>BIS-approved solar inverters of <span data-f="invMake"></span> or equivalent shall be used, as per authority requirements.</li>
+      <li>The price is for a flat-roof installation with a maximum height of <span data-f="structureHeight"></span> m on the south side. Concrete footing and a metal structure shall be used. Any additional requirement or modification (for example, installation above 1.5 m height, above a roofing sheet, on a sloped roof, or with walkway, ladder etc.) shall be done at extra cost as per site conditions.</li>
+      <li><span data-f="dcCable"></span> m of DC cable and <span data-f="acCable"></span> m of AC wire are included for installations below 5 kW. Any additional requirement shall be done at extra cost.</li>
+      <li>KSEB charges (if any) shall be paid by the client.</li>
+      <li>Sufficient shadow-free area on the roof for the solar panels shall be provided by the client.</li>
+      <li>The client has to submit bank details and upload a copy of a cancelled cheque. The fund handling agency will release the central Government subsidy directly into the client's bank account. The client pays the complete amount to the vendor. Details of the central Government subsidy under the simplified procedure can be checked on the National Portal.</li>
+      <li>All rates quoted are valid for <span data-f="validDays"></span> days.</li>
+      <li><span data-f="advancePct"></span>% payment should be done in advance.</li>
+      <li>The remaining amount should be paid within <span data-f="balanceDays"></span> days of delivery.</li>
+    </ol>
+
+    <h3 style="margin-top:calc(9*var(--u))">Payment schedule</h3>
+    <table>
+      <thead><tr><th>Milestone</th><th class="num" style="width:calc(20*var(--u))">Share</th><th class="num" style="width:calc(34*var(--u))">Amount</th></tr></thead>
+      <tbody data-render="payments"></tbody>
+    </table>
+    <div class="small-note">Payments by bank transfer to the account on the next page.</div>
+  </div>
+  <footer class="pfoot"><div><b>Zairo Green Energy</b> · <span data-f="coPhone1"></span> · <span data-f="coEmail"></span></div><div>Page 4 of 5</div></footer>
+</section>
+
+<!-- ========== 5. PAYABLE TO, CONTACT, ACCEPTANCE ========== -->
+<section class="page">
+  <div class="pbody">
+    <div class="phead"><img src="assets/logo.png" alt="Zairo Green Energy"><div class="ref">Quotation <b data-f="quoteNo"></b><br>for <b data-f="custName"></b></div></div>
+    <div class="kicker">04 · Payment &amp; contact</div>
+    <h2>Payable to</h2>
+    <div class="pay-grid">
+      <div class="box">
+        <h4>Bank details</h4>
+        <dl class="kv">
+          <dt>Account name</dt><dd data-f="bankAccNameT"></dd>
+          <dt>Bank</dt><dd data-f="bankNameT"></dd>
+          <dt>A/C no.</dt><dd data-f="bankAccT"></dd>
+          <dt>IFSC</dt><dd data-f="bankIfscT"></dd>
+          <dt>Branch</dt><dd data-f="bankBranchT"></dd>
+          <dt data-show="hasUpi">UPI ID</dt><dd data-show="hasUpi" data-f="bankUpi"></dd>
+        </dl>
+      </div>
+      <div class="box">
+        <h4>Contact us</h4>
+        <div class="contact-list">
+          <span><svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-f="coAddress"></span></span>
+          <span><svg class="ico" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span data-f="coPhones"></span></span>
+          <span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-f="coEmail"></span></span>
+          <span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg><span data-f="coInsta"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="box sign">
+      <div>
+        <h4 style="font:600 calc(9.5*.3528*var(--u)) var(--head);margin:0 0 calc(2*var(--u));color:var(--green-700)">Customer acceptance</h4>
+        <p>I / We accept this quotation and its terms.</p>
+        <div class="sig-line">Signature</div>
+        <div class="sig-line">Name &amp; date</div>
+      </div>
+      <div>
+        <h4 style="font:600 calc(9.5*.3528*var(--u)) var(--head);margin:0 0 calc(2*var(--u));color:var(--green-700)">For Zairo Green Energy</h4>
+        <p>Authorised signatory</p>
+        <div class="sig-line">Signature &amp; seal</div>
+        <div class="sig-line">Name &amp; date</div>
+      </div>
+    </div>
+
+    <div class="regards">
+      <img src="assets/hero.jpg" alt="">
+      <div class="shade"></div>
+      <div class="txt"><b>Best regards, Zairo Green Energy</b><span>Thank you for considering solar with us.</span></div>
+    </div>
+  </div>
+  <footer class="pfoot"><div><b>Zairo Green Energy</b> · <span data-f="coPhone1"></span> · <span data-f="coEmail"></span></div><div>Page 5 of 5</div></footer>
+</section>
+
+</div>
+</main>
+
+<nav class="mobile-bar" aria-label="Sections">
+  <button type="button" data-go="editor"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/></svg>Details</button>
+  <button type="button" data-go="preview"><svg class="ico" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg>Preview</button>
+  <button type="button" data-go="print" class="pdf"><svg class="ico" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Save PDF</button>
+</nav>
+
+<script>
+(() => {
+const STORE = 'zairo-quote-v2';
+const pad = n => String(n).padStart(2, '0');
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+
+const DEFAULTS = {
+  custName: 'Mr. Arun Kumar', custAddress: 'Velom, Kozhikode', custPhone: '+91 90000 00000', custEmail: '',
+  quoteNo: 'ZGE/26/001', quoteDate: todayISO(), validDays: 15, preparedBy: 'Zairo Green Energy',
+  panelMake: 'Waaree', panelTech: 'TOPCon DCR', panelWatt: 550, panelCount: 6,
+  invMake: 'Waaree / Deye / Havells', invKw: 3, phase: 'Single phase', structureHeight: 1.25, dcCable: 50, acCable: 30,
+  price: 310000, subsidyMode: 'auto', subsidyCustom: 78000, advancePct: 80, balanceDays: 3,
+  panelPerfWarranty: 30, invWarranty: 10, bosWarranty: 5,
+  ksebAppFee: 1000, ksebDepositPerKw: 1000, netMeter1ph: 4300, netMeter3ph: 8700,
+  coPhone1: '+91 92076 96112', coPhone2: '+91 82898 39375', coEmail: 'zairogreenenergy@gmail.com', coInsta: '@__zairo__energy',
+  coAddress: 'Poolakkool, Palliyath–Theekkuni Road, Palliyath, Velom, Kozhikode, Kerala 673507',
+  bankAccName: 'Zairo Green Energy', bankName: '', bankBranch: '', bankAcc: '', bankIfsc: '', bankUpi: ''
+};
+
+
+// Bill of materials. Rows of kind panel / inverter / meter fill blank fields from the System section.
+const DEFAULT_BOM = [
+  { kind: 'panel' },
+  { kind: 'item', item: 'Structure', details: 'customer customised', qty: 'Req.', make: 'TATA GI', uom: 'set' },
+  { kind: 'inverter' },
+  { kind: 'item', item: 'Solar DCDB', qty: '1', make: 'Premium Havells', uom: 'set' },
+  { kind: 'item', item: 'Solar ACDB', qty: '1', make: 'Premium Havells', uom: 'set' },
+  { kind: 'meter' },
+  { kind: 'item', item: 'DC cable', details: '4 sq mm', qty: 'Req.', make: 'Havells', uom: 'm' },
+  { kind: 'item', item: 'AC cable', details: '4 sq mm', qty: 'Req.', make: 'Polycab Green', uom: 'm' },
+  { kind: 'item', item: 'Lightning arrester', qty: '1', make: 'Excel Earthing', uom: 'no' },
+  { kind: 'item', item: 'DC & AC earthing', qty: 'Req.', make: 'Copper', uom: 'set' },
+  { kind: 'item', item: 'LA earthing', qty: 'Req.', make: 'Excel Earthing', uom: 'set' },
+  { kind: 'item', item: 'Installation kit', qty: 'Req.', make: 'MNRE approved', uom: 'set' }
+];
+const BOM_FIELDS = ['item', 'details', 'qty', 'make', 'uom'];
+const AUTO = {
+  panel: v => ({ item: `${v.panelMake} ${v.panelTech} panel`, details: `(${v.panelCount} × ${v.panelWatt} Wp)`, qty: v.dcLabel, make: v.panelMake, uom: 'nos' }),
+  inverter: v => ({ item: 'On-grid inverter', details: `${v.sizeLabel} ${v.phaseShort}`, qty: '1', make: v.invMake, uom: 'no' }),
+  meter: v => ({ item: 'Solar energy meter', details: v.phaseShort, qty: '1', make: 'L&T / HPL', uom: 'no' })
+};
+const AUTO_LABEL = { panel: 'Solar panels: from System', inverter: 'Inverter: from System', meter: 'Energy meter: phase from System' };
+const normBom = rows => (Array.isArray(rows) ? rows : DEFAULT_BOM)
+  .filter(r => r && typeof r === 'object')
+  .map(r => {
+    const o = { kind: AUTO[r.kind] ? r.kind : 'item' };
+    BOM_FIELDS.forEach(f => { o[f] = String(r[f] ?? ''); });
+    return o;
+  });
+const bomCell = (r, a, f) => String(r[f]).trim() || (a[f] ?? '');
+
+let state = { ...DEFAULTS, bom: normBom(DEFAULT_BOM) };
+let edits = {};
+const original = {};
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const num = n => Math.round(n).toLocaleString('en-IN');
+const kw = n => String(Math.round(n * 100) / 100);
+const fmtDate = d => d.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const dash = s => (String(s ?? '').trim() || '—');
+
+function load() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
+    if (saved) { state = { ...DEFAULTS, ...saved.state }; edits = saved.edits || {}; }
+    state.bom = normBom(state.bom);
+  } catch (e) { /* storage unavailable: run with defaults */ }
+}
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify({ state, edits })); } catch (e) { /* ignore */ }
+}
+
+function derive(s) {
+  const n = k => Number(s[k]) || 0;
+  const v = { ...s };
+  v.dcKwp = n('panelCount') * n('panelWatt') / 1000;
+  v.dcLabel = kw(v.dcKwp) + ' kWp';
+  v.sizeLabel = kw(n('invKw')) + ' kW';
+  v.phaseShort = s.phase === 'Three phase' ? '3PH' : '1PH';
+  v.phaseWord = s.phase === 'Three phase' ? 'three phase' : 'single phase';
+  v.heroSub = `${s.panelCount} × ${s.panelWatt} Wp ${s.panelMake} ${s.panelTech} panels · ${kw(n('invKw'))} kW on-grid inverter`;
+
+  // Price (inclusive of all taxes) & subsidy
+  v.total = Math.round(n('price'));
+  let sub = 0;
+  if (s.subsidyMode === 'auto') {
+    // PM Surya Ghar: ₹30,000/kW up to 2 kW, ₹18,000 for the 3rd kW, capped at ₹78,000
+    const c = v.dcKwp;
+    sub = Math.min(78000, Math.round(Math.min(c, 2) * 30000 + Math.max(0, Math.min(c, 3) - 2) * 18000));
+  } else if (s.subsidyMode === 'custom') sub = n('subsidyCustom');
+  v.subsidy = sub; v.hasSubsidy = sub > 0;
+  v.netCost = v.total - sub;
+  v.netLabel = v.hasSubsidy ? 'Cost after subsidy' : 'Total cost';
+  v.netSub = v.hasSubsidy ? 'your actual cost' : 'inclusive of all taxes';
+  v.totalT = inr(v.total); v.subsidyT = inr(sub); v.netCostT = inr(v.netCost);
+
+  // Payment
+  v.advancePct = Math.max(0, Math.min(100, n('advancePct')));
+  v.balancePct = 100 - v.advancePct;
+  v.advanceAmt = Math.round(v.total * v.advancePct / 100);
+  v.balanceAmt = v.total - v.advanceAmt;
+
+  // Other charges by client
+  v.ksebAppFeeT = inr(n('ksebAppFee'));
+  v.ksebDepositT = `${inr(n('ksebDepositPerKw'))} / kW + tax`;
+  v.ksebDepositCalcT = `${inr(n('ksebDepositPerKw') * n('invKw'))} + tax for ${kw(n('invKw'))} kW`;
+  v.netMeter1phT = inr(n('netMeter1ph'));
+  v.netMeter3phT = inr(n('netMeter3ph'));
+
+  // Dates
+  const qd = s.quoteDate ? new Date(s.quoteDate + 'T00:00:00') : new Date();
+  const vu = new Date(qd); vu.setDate(vu.getDate() + n('validDays'));
+  v.quoteDateT = fmtDate(qd); v.validUntilT = fmtDate(vu);
+
+  // Customer & company
+  v.custPhoneT = dash(s.custPhone);
+  v.hasEmail = !!String(s.custEmail).trim();
+  v.coPhones = [s.coPhone1, s.coPhone2].filter(x => String(x).trim()).join('  ·  ');
+  v.hasUpi = !!String(s.bankUpi).trim();
+  ['bankAccName', 'bankName', 'bankBranch', 'bankAcc', 'bankIfsc'].forEach(k => v[k + 'T'] = dash(s[k]));
+  return v;
+}
+
+// ---------- Renderers ----------
+function render(v, s) {
+  const R = {};
+  let pay = `<tr><td><b>1.</b> Advance with the order</td><td class="num">${v.advancePct}%</td><td class="num">${inr(v.advanceAmt)}</td></tr>`;
+  if (v.balancePct > 0) pay += `<tr><td><b>2.</b> Balance, within ${esc(s.balanceDays)} days of delivery</td><td class="num">${v.balancePct}%</td><td class="num">${inr(v.balanceAmt)}</td></tr>`;
+  pay += `<tr class="total"><td>Total (inclusive of all taxes)</td><td class="num">100%</td><td class="num">${inr(v.total)}</td></tr>`;
+  R.payments = pay;
+  let n = 0;
+  R.bom = state.bom.map(r => {
+    const a = AUTO[r.kind] ? AUTO[r.kind](v) : {};
+    const c = f => bomCell(r, a, f);
+    if (!c('item') && !c('details') && !c('make')) return '';
+    n++;
+    return `<tr><td class="idx">${n}</td><td><b>${esc(c('item'))}</b>${c('details') ? ` <span class="dt">${esc(c('details'))}</span>` : ''}</td><td>${esc(c('qty'))}</td><td>${esc(c('make'))}</td><td>${esc(c('uom'))}</td></tr>`;
+  }).join('');
+  return R;
+}
+
+function update() {
+  const v = derive(state);
+  $$('[data-f]').forEach(el => {
+    const val = v[el.dataset.f];
+    const txt = val === undefined || val === null ? '' : String(val);
+    if (el.textContent !== txt) el.textContent = txt;
+  });
+  $$('[data-show]').forEach(el => { el.style.display = v[el.dataset.show] ? '' : 'none'; });
+  const R = render(v, state);
+  $$('[data-render]').forEach(el => { el.innerHTML = R[el.dataset.render] || ''; });
+
+  // Editor helpers
+  $$('[data-when]').forEach(el => {
+    const [k, val] = el.dataset.when.split('=');
+    el.style.display = String(state[k]) === val ? '' : 'none';
+  });
+  const ratio = v.dcKwp / (Number(state.invKw) || 1);
+  bomPlaceholders(v);
+  $('[data-hint="system"]').innerHTML = `Panel capacity <b>${esc(v.dcLabel)}</b> · DC/AC ratio ${ratio.toFixed(2)}`;
+  $('[data-hint="price"]').innerHTML = `${inr(Math.round(v.total / Math.max(v.dcKwp, 0.01)))} per kWp · Subsidy ${inr(v.subsidy)} · After subsidy <b>${inr(v.netCost)}</b><br>Advance ${inr(v.advanceAmt)} · Balance ${inr(v.balanceAmt)}`;
+
+  const w = [];
+  if (ratio < 0.9 || ratio > 1.4) w.push(`DC/AC ratio is ${ratio.toFixed(2)}. Check the panel count against the inverter size.`);
+  if (!String(state.bankAcc).trim() || !String(state.bankIfsc).trim() || !String(state.bankName).trim()) w.push({ info: true, t: 'Add Zairo’s bank, A/C no. and IFSC (Company & bank details) before sending.' });
+  setTimeout(() => {
+    const over = [];
+    $$('.page').forEach((pg, i) => {
+      const body = pg.querySelector('.pbody') || pg.querySelector('.cover-body');
+      const o = body && body.scrollHeight > body.clientHeight + 1;
+      pg.classList.toggle('overflow', !!o);
+      if (o) over.push(i + 1);
+    });
+    const list = over.length ? [...w, `Page ${over.join(', ')} has too much content to fit. Remove some items or shorten the text.`] : w;
+    $('#warnings').innerHTML = list.map(x => typeof x === 'string'
+      ? `<div class="warn">${esc(x)}</div>` : `<div class="warn info">${esc(x.t)}</div>`).join('');
+  }, 0);
+}
+
+const BOM_PH = { item: 'Item', details: 'Details (optional)', qty: 'Qty', make: 'Make', uom: 'UoM' };
+function renderBomEditor() {
+  const last = state.bom.length - 1;
+  $('#bomList').innerHTML = state.bom.map((r, i) => `
+    <div class="bom-row${AUTO[r.kind] ? ' auto' : ''}" data-i="${i}">
+      <div class="bom-head">
+        <span class="bom-n">${i + 1}</span>
+        <span class="bom-kind">${AUTO_LABEL[r.kind] || ''}</span>
+        <div class="bom-ctrl">
+          <button type="button" data-act="up" title="Move up" aria-label="Move item ${i + 1} up"${i === 0 ? ' disabled' : ''}>↑</button>
+          <button type="button" data-act="down" title="Move down" aria-label="Move item ${i + 1} down"${i === last ? ' disabled' : ''}>↓</button>
+          <button type="button" data-act="del" title="Remove" aria-label="Remove item ${i + 1}">✕</button>
+        </div>
+      </div>
+      <div class="bom-grid">
+        ${BOM_FIELDS.map(f => `<input class="${f === 'item' || f === 'details' ? 'wide' : ''}" data-bf="${f}" value="${esc(r[f])}" placeholder="${BOM_PH[f]}" aria-label="${BOM_PH[f]}, item ${i + 1}">`).join('')}
+      </div>
+    </div>`).join('');
+  bomPlaceholders(derive(state));
+}
+function bomPlaceholders(v) {
+  $$('#bomList .bom-row').forEach(row => {
+    const r = state.bom[+row.dataset.i];
+    if (!r || !AUTO[r.kind]) return;
+    const a = AUTO[r.kind](v);
+    row.querySelectorAll('[data-bf]').forEach(inp => { inp.placeholder = a[inp.dataset.bf] || BOM_PH[inp.dataset.bf]; });
+  });
+}
+
+function fillForm() {
+  $$('[data-k]').forEach(el => {
+    const val = state[el.dataset.k];
+    if (el.type === 'checkbox') el.checked = !!val; else el.value = val ?? '';
+  });
+}
+function applyEdits() {
+  $$('[data-edit]').forEach(el => { el.innerHTML = edits[el.dataset.edit] ?? original[el.dataset.edit]; });
+}
+
+function onField(e) {
+  const el = e.target;
+  if (el.dataset && el.dataset.k) {
+    state[el.dataset.k] = el.type === 'checkbox' ? el.checked : (el.type === 'number' ? (el.value === '' ? '' : Number(el.value)) : el.value);
+    update(); save();
+  }
+}
+document.addEventListener('input', e => {
+  const ed = e.target.closest && e.target.closest('[data-edit]');
+  if (ed) { edits[ed.dataset.edit] = ed.innerHTML; save(); update(); return; }
+  const bf = e.target.dataset && e.target.dataset.bf;
+  if (bf) {
+    const r = state.bom[+e.target.closest('.bom-row').dataset.i];
+    if (r) { r[bf] = e.target.value; update(); save(); }
+    return;
+  }
+  onField(e);
+});
+$('#bomList').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const i = +btn.closest('.bom-row').dataset.i, b = state.bom;
+  const act = btn.dataset.act;
+  let focusRow = i;
+  if (act === 'del') {
+    const a = AUTO[b[i].kind] ? AUTO[b[i].kind](derive(state)) : {};
+    const name = bomCell(b[i], a, 'item') || 'this item';
+    if (!confirm(`Remove "${name}" from the bill of materials?`)) return;
+    b.splice(i, 1);
+    focusRow = Math.min(i, b.length - 1);
+  } else {
+    const j = act === 'up' ? i - 1 : i + 1;
+    if (j < 0 || j >= b.length) return;
+    [b[i], b[j]] = [b[j], b[i]];
+    focusRow = j;
+  }
+  renderBomEditor(); update(); save();
+  const target = $(`#bomList .bom-row[data-i="${focusRow}"] button[data-act="${act}"]`);
+  if (target && !target.disabled) target.focus();
+});
+$('#bomAdd').addEventListener('click', () => {
+  state.bom.push({ kind: 'item', item: '', details: '', qty: '1', make: '', uom: 'no' });
+  renderBomEditor(); update(); save();
+  const rows = $$('#bomList .bom-row');
+  rows[rows.length - 1].querySelector('[data-bf="item"]').focus();
+});
+$('#bomReset').addEventListener('click', () => {
+  if (!confirm('Replace the bill of materials with the default list? Your changes to it will be lost.')) return;
+  state.bom = normBom(DEFAULT_BOM);
+  renderBomEditor(); update(); save();
+});
+document.addEventListener('change', onField);
+
+// Fit pages to the preview width
+function fit() {
+  const avail = $('#preview').clientWidth - 48;
+  const pagePx = 210 * 96 / 25.4;
+  document.documentElement.style.setProperty('--z', Math.min(1, avail / pagePx).toFixed(3));
+}
+window.addEventListener('resize', fit);
+
+// Actions
+$('#btnPrint').addEventListener('click', () => {
+  const t = document.title;
+  document.title = `Zairo Quote ${state.quoteNo} - ${state.custName}`.replace(/[\\/:*?"<>|]+/g, '-');
+  window.print();
+  document.title = t;
+});
+$('#btnNew').addEventListener('click', () => {
+  if (!confirm('Start a new quote? Customer details are cleared and the reference number goes up by one. System, price and company details are kept.')) return;
+  const m = String(state.quoteNo).match(/^(.*?)(\d+)(\D*)$/);
+  if (m) state.quoteNo = m[1] + String(Number(m[2]) + 1).padStart(m[2].length, '0') + m[3];
+  Object.assign(state, { custName: '', custAddress: '', custPhone: '', custEmail: '', quoteDate: todayISO() });
+  fillForm(); update(); save();
+});
+$('#btnExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ app: 'zairo-quote', version: 2, state, edits }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Zairo-Quote-${String(state.quoteNo).replace(/[^\w-]+/g, '-')}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+$('#btnImport').addEventListener('click', () => $('#fileImport').click());
+$('#fileImport').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const data = JSON.parse(await f.text());
+    if (!data || typeof data.state !== 'object') throw new Error('bad file');
+    state = { ...DEFAULTS, ...data.state };
+    state.bom = normBom(state.bom);
+    edits = (data.version === 2 && data.edits && typeof data.edits === 'object') ? data.edits : {};
+    fillForm(); renderBomEditor(); applyEdits(); update(); save();
+  } catch (err) { alert('That file is not a Zairo quote file.'); }
+  e.target.value = '';
+});
+$('#btnResetText').addEventListener('click', e => {
+  e.preventDefault();
+  if (!confirm('Put all directly edited text back to the template wording?')) return;
+  edits = {}; applyEdits(); update(); save();
+});
+
+// Init
+$$('[data-edit]').forEach(el => { original[el.dataset.edit] = el.innerHTML; });
+try { localStorage.removeItem('zairo-quote-v1'); } catch (e) { /* ignore */ }
+load();
+fillForm();
+renderBomEditor();
+applyEdits();
+update();
+fit();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+
+$$('.mobile-bar [data-go]').forEach(b => b.addEventListener('click', () => {
+  const go = b.dataset.go;
+  if (go === 'print') { $('#btnPrint').click(); return; }
+  (go === 'editor' ? $('.editor') : $('#preview')).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}));
+
+// ---------- Installable app ----------
+const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+let installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  installPrompt = e;
+  $('#btnInstall').hidden = false;
+});
+$('#btnInstall').addEventListener('click', async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt = null;
+  $('#btnInstall').hidden = true;
+});
+window.addEventListener('appinstalled', () => { $('#btnInstall').hidden = true; });
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+if (isIOS && !standalone) $('#iosTip').hidden = false;
+// Offline support (only over https / localhost, not when opened as a file)
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+})();
+</script>
+</body>
+</html>
