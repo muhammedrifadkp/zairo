@@ -186,11 +186,24 @@ tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none
 .scope li::before{content:"";flex:none;width:calc(1.8*var(--u));height:calc(1.8*var(--u));border-radius:50%;background:var(--sun);margin-top:calc(1.4*var(--u))}
 
 /* ---------- BOM, warranty, charges ---------- */
-.bom td{padding-top:calc(2.6*var(--u));padding-bottom:calc(2.6*var(--u))}
-.bom td:nth-child(3){width:calc(24*var(--u))}
-.bom td:nth-child(4){width:calc(46*var(--u))}
-.bom td:nth-child(5){width:calc(14*var(--u))}
-.bom .dt{color:var(--ink-2)}
+.bom-card{border:1px solid var(--line);border-radius:calc(2.5*var(--u));overflow:hidden;background:#fff;margin-top:calc(2*var(--u));box-shadow:0 1px 3px rgba(10,40,25,.04)}
+.bom{width:100%;border-collapse:collapse}
+.bom thead th{background:var(--green-900);color:#fff;font:600 calc(7.2*.3528*var(--u)) var(--head);text-transform:uppercase;letter-spacing:.08em;padding:calc(2.4*var(--u)) calc(3*var(--u));border:none;border-right:1px solid rgba(255,255,255,.14);white-space:nowrap}
+.bom thead th:last-child{border-right:none}
+.bom thead th.th-idx{text-align:center;width:calc(8*var(--u))}
+.bom thead th.th-uom{text-align:center;width:calc(14*var(--u))}
+.bom td{padding:calc(1.8*var(--u)) calc(3*var(--u));border-bottom:1px solid var(--line);border-right:1px solid var(--line-2);vertical-align:middle;font-size:calc(8.3*.3528*var(--u))}
+.bom td:last-child{border-right:none}
+.bom tbody tr:last-child td{border-bottom:none}
+.bom tbody tr:nth-child(even){background:var(--line-2)}
+.bom tbody tr:nth-child(odd){background:#fff}
+.bom tbody tr:hover{background:var(--green-50)}
+.bom td.idx{text-align:center;color:var(--muted);font-weight:600;width:calc(8*var(--u));background:rgba(0,0,0,.015)}
+.bom td:nth-child(2) b{color:var(--ink);font-weight:600}
+.bom td:nth-child(3){width:calc(22*var(--u));font-weight:600;color:var(--ink)}
+.bom td:nth-child(4){width:calc(44*var(--u));font-weight:600;color:var(--green-700)}
+.bom td:nth-child(5){width:calc(14*var(--u));text-align:center;color:var(--muted);font-size:calc(7.8*.3528*var(--u))}
+.bom .dt{color:var(--muted);font-weight:400;margin-left:calc(1.5*var(--u));font-size:calc(7.8*.3528*var(--u))}
 .warr{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(3.5*var(--u))}
 .warr>div{border:1px solid var(--line);border-radius:calc(3*var(--u));padding:calc(3.2*var(--u)) calc(4*var(--u));display:flex;align-items:center;gap:calc(3.5*var(--u))}
 .warr .yrs{font:700 calc(17*.3528*var(--u))/1 var(--head);color:var(--green)}
@@ -498,12 +511,14 @@ tr.total td{font-weight:700;border-top:1.4px solid var(--ink);border-bottom:none
     <div class="phead"><img src="assets/logo.png" alt="Zairo Green Energy"><div class="ref">Quotation <b data-f="quoteNo"></b><br>for <b data-f="custName"></b></div></div>
     <div class="kicker">02 · Materials &amp; warranty</div>
     <h2>Tentative bill of materials</h2>
-    <table class="bom">
-      <thead><tr><th>#</th><th>Description of supply items</th><th>Qty</th><th>Make</th><th>UoM</th></tr></thead>
-      <tbody data-render="bom"></tbody>
-    </table>
+    <div class="bom-card">
+      <table class="bom">
+        <thead><tr><th class="th-idx">#</th><th>Description of supply items</th><th>Qty</th><th>Make</th><th class="th-uom">UoM</th></tr></thead>
+        <tbody data-render="bom"></tbody>
+      </table>
+    </div>
 
-    <h3 style="margin-top:calc(8*var(--u))">Warranty</h3>
+    <h3 style="margin-top:calc(5*var(--u))">Warranty</h3>
     <div class="warr">
       <div><div class="yrs"><span data-f="panelPerfWarranty"></span><small>years</small></div><div class="what"><b>Solar PV modules</b><br>performance warranty</div></div>
       <div><div class="yrs"><span data-f="invWarranty"></span><small>years</small></div><div class="what"><b>Inverter</b><br>warranty</div></div>
